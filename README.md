@@ -163,6 +163,6 @@ This project is open-source and available for educational and research purposes.
 
 ## ✨ Author
 
-**Shakra Shamim**  
+**Mehul Gupta**  
 AI / ML | Computer Vision | Backend Systems  
 Focused on real-world, impact-driven AI solutions
