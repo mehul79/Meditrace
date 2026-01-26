@@ -11,14 +11,15 @@ import os
 from pathlib import Path
 from PIL import Image
 import uvicorn
+from pathlib import Path
 
 app = FastAPI()
 
-venv_path = Path(os.environ["VIRTUAL_ENV"])  # Get the venv path
-pytesseract.pytesseract.tesseract_cmd = str(venv_path / "Scripts" / "tesseract.exe")
+# venv_path = Path(".venv").resolve()
+# pytesseract.pytesseract.tesseract_cmd = str(venv_path / "Scripts" / "tesseract.exe")
 
 # ✅ Load YOLO Model (Force CPU Mode)
-YOLO_MODEL_PATH = "best.pt"
+YOLO_MODEL_PATH = "model.pt"
 model = YOLO(YOLO_MODEL_PATH).to("cpu")  # Force CPU Mode
 
 def process_image(contents):
@@ -76,6 +77,12 @@ async def detect_medicine(image: UploadFile = File(...)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
+    
+
+@app.get("/")
+async def root():
+    return {"message": "Medicine Detection API is running.fdsf"}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000, workers=4, log_level="info")
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, workers=4, log_level="info", reload=True)
+
